@@ -4,22 +4,17 @@ module.exports = function check(str, bracketsConfig) {
 
   // set pairs of opening-closing brackets
   for (pair of bracketsConfig) {
-      config[pair[0]] = pair[1];
+    config[pair[0]] = pair[1];
   }
 
   for (letter of str) {
-    // check if letter is key in config object
-    // if true, then it is an opening bracket
-    if (letter in config) {
-      stack.push(letter);
-      // otherwise, the bracket is closing
+    // try checking if last item in stack equals current letter
+    // if so, then we remove it
+    if (config[stack[stack.length - 1]] === letter) {
+      stack.pop();
+      // otherwise, we push it in stack
     } else {
-      // verify that last in stack and current bracekts make pair
-      if (config[stack[stack.length - 1]] === letter) {
-        stack.pop();
-      } else {
-        return false;
-      }
+      stack.push(letter);
     }
   }
 
@@ -29,4 +24,4 @@ module.exports = function check(str, bracketsConfig) {
   } else {
     return false;
   }
-};
+}
